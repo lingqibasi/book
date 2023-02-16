@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BookMapper">
+
+    <select id="list" resultType="book">
+        select * from book
+    </select>
+
+    <select id="listByCondition" resultType="book">
+        select * from book
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{ name }, '%')
+            </if>
+            <if test="bookNo != null and bookNo != ''">
+               and book_no = #{bookNo}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <insert id="save">
+        insert into book (name,description,publish_date,author,publicer,category,book_no,cover,score,nums)
+        values (#{name},#{description},#{publishDate},#{author},#{publicer},#{category},#{bookNo},#{cover},#{score},#{nums})
+    </insert>
+
+    <select id="getById" resultType="book">
+        select * from book where id = #{id}
+    </select>
+
+    <select id="getByNo" resultType="book">
+        select * from book where book_no = #{bookNo}
+    </select>
+
+
+    <update id="edit">
+        update book
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="publishDate != null and publishDate != ''">
+                publish_date = #{publishDate},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author},
+            </if>
+            <if test="publicer != null and publicer != ''">
+                publicer = #{publicer},
+            </if>
+            <if test=" category != null and category != ''">
+                category = #{category},
+            </if>
+            <if test=" bookNo != null and bookNo != ''">
+                book_no = #{bookNo},
+            </if>
+            <if test="cover != null and cover != ''">
+                cover = #{cover},
+            </if>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="nums != null and nums != ''">
+                nums = #{nums}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="updateNumByNo">
+        update book set nums = nums+1 where book_no = #{bookNo}
+    </update>
+
+    <delete id="deleteById">
+        delete from book where id = #{id}
+    </delete>
+
+
+</mapper>

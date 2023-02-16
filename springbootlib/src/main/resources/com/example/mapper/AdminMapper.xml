@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.AdminMapper">
+    <select id="list" resultType="Admin">
+        select * from admin
+    </select>
+
+    <select id="ListByCondition" resultType="Admin">
+        select * from admin
+        <where>
+            <if test="username != null and username != ''">
+                username like concat('%', #{ username }, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone  like concat('%', #{ phone }, '%')
+            </if>
+            <if test="email != null and email != ''">
+                and email  like concat('%', #{ email }, '%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <insert id="save">
+        insert into admin (username,password,email,phone)
+        values (#{username},#{password},#{email},#{phone})
+    </insert>
+
+    <select id="getById" resultType="Admin">
+        select * from admin where id = #{id}
+    </select>
+
+    <update id="edit">
+        update admin
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test=" updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from admin where id = #{id}
+    </delete>
+
+    <select id="getAdminByUsernameAndPassword" resultType="Admin">
+        select * from admin where username = #{username} and password = #{password}
+    </select>
+
+    <update id="editPassword">
+        update admin
+        <set>
+            <if test="newPass != null and newPass != ''">
+                password = #{newPass},
+            </if>
+        </set>
+        where username = #{username}
+    </update>
+
+    <select id="getByUsername" resultType="Admin">
+        select * from admin where username = #{username}
+    </select>
+
+</mapper>
