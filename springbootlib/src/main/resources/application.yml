@@ -1,0 +1,27 @@
+server:
+  port: 8090
+
+mybatis:
+  type-aliases-package: com.example.pojo
+  mapper-locations: classpath:com/example/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+#  开启驼峰映射
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library-management?serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+
+servlet:
+  multipart:
+    enabled: true
+    max-file-size: 20MB
+
+file:
+  upload:
+    dir: D:\java\image
